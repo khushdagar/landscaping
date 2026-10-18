@@ -1107,6 +1107,11 @@ body.annotate [data-field]:hover{position:relative}
 .ctaband-inner h2{color:#fff}
 .ctaband-inner p{color:rgba(255,255,255,.82)}
 .ctaband-actions{display:flex; flex-wrap:wrap; gap:.7rem; justify-content:center; margin-top:.5rem}
+
+/* ---- location page ---- */
+.chipset li{background:var(--surface); border:1px solid var(--line)}
+.pagehero .hero-rating{color:rgba(255,255,255,.9)}
+.findus-card .findus-actions .btn{flex:1 1 150px}
 </style>
 </head>
 
@@ -1196,26 +1201,38 @@ body.annotate [data-field]:hover{position:relative}
 
 <main id="main">
 
-<section class="pagehero">
+<!-- ══ LOCATION HERO ══════════════════════════════════════════════════════ -->
+<section class="pagehero" id="top">
   <div class="media" data-eager data-field="page.heroImage" data-img="page.heroImage" data-dims="1920 × 760"></div>
   <div class="pagehero-scrim"></div>
   <div class="container pagehero-inner">
-
-      <nav class="crumbs" aria-label="Breadcrumb"><ol>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="locations.html">Service areas</a></li>
-        <li aria-current="page" data-content="ldCrumb">Office</li>
-      </ol></nav>
-    <h1 data-field="location.name" data-content="ldName"></h1>
+    <nav class="crumbs" aria-label="Breadcrumb"><ol>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="locations.html">Service areas</a></li>
+      <li aria-current="page" data-content="ldCrumb"></li>
+    </ol></nav>
+    <div class="hero-rating reveal" data-field="hero.ratingSummary" style="margin-top:1.1rem">
+      <span class="stars" data-content="heroStars"></span>
+      <span data-content="heroRating"></span>
+    </div>
+    <h1 data-field="page.h1" data-content="ldH1"></h1>
     <p class="pagehero-lead" data-field="location.intro" data-content="ldIntro"></p>
     <div class="pagehero-meta" data-content="ldChips" data-field="location.meta"></div>
+    <div class="pagehero-actions">
+      <a class="btn btn-accent btn-lg" href="#estimate" data-content="heroCta1"></a>
+      <a class="btn btn-light btn-lg btn-call" href="tel:+910000000000"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3.1 19.5 19.5 0 01-6-6A19.8 19.8 0 012.1 4.2 2 2 0 014.1 2h3a2 2 0 012 1.7c.1 1 .3 1.9.6 2.8a2 2 0 01-.5 2.1L8.1 9.8a16 16 0 006 6l1.2-1.1a2 2 0 012.1-.5c.9.3 1.8.5 2.8.6a2 2 0 011.8 2.1z"/></svg><span class="call-full" data-content="callLabel"></span><span class="call-short">Call now</span></a>
+    </div>
   </div>
 </section>
 
-<section class="section">
+<div class="container herocard-wrap">
+  <ul class="herocard" data-content="heroChips" data-field="hero.trustChips"></ul>
+</div>
+
+<!-- ══ FIND US — map, address, hours, directions ══════════════════════════ -->
+<section class="section" id="find-us">
   <div class="container">
     <div class="findus-grid">
-
       <div class="mapslot is-tall" data-field="location.mapEmbed">
         <div class="mapslot-fallback">
           <div class="mapslot-pin">
@@ -1230,7 +1247,7 @@ body.annotate [data-field]:hover{position:relative}
         <address style="margin-top:.9rem; color:var(--ink-soft)" data-content="ldAddress" data-field="location.address"></address>
         <ul class="findus-rows" data-content="ldRows" data-field="location.details"></ul>
         <div class="findus-actions">
-          <a class="btn btn-primary" href="contact.html#bookform" data-content="heroCta1"></a>
+          <a class="btn btn-primary" href="#estimate" data-content="heroCta1"></a>
           <a class="btn btn-outline" href="#" data-field="location.directionsUrl">Get directions</a>
         </div>
       </div>
@@ -1238,10 +1255,155 @@ body.annotate [data-field]:hover{position:relative}
   </div>
 </section>
 
+<!-- ══ INTRO SPLIT — this location ═══════════════════════════════════════ -->
+<section class="section section-tinted" id="about">
+  <div class="container introsplit">
+    <div class="intro-body">
+      <div class="seclabel">About this location</div>
+      <h2 data-content="ldAboutHeading" data-field="location.aboutHeading"></h2>
+      <p class="lede" data-field="about.intro" data-content="svcIntro"></p>
+      <p data-field="about.subtext" data-content="aboutBody"></p>
+      <div class="intro-actions">
+        <a class="btn btn-primary btn-lg" href="#estimate" data-content="heroCta1"></a>
+        <a class="btn btn-outline btn-lg btn-call" href="tel:+910000000000"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3.1 19.5 19.5 0 01-6-6A19.8 19.8 0 012.1 4.2 2 2 0 014.1 2h3a2 2 0 012 1.7c.1 1 .3 1.9.6 2.8a2 2 0 01-.5 2.1L8.1 9.8a16 16 0 006 6l1.2-1.1a2 2 0 012.1-.5c.9.3 1.8.5 2.8.6a2 2 0 011.8 2.1z"/></svg><span class="call-full" data-content="callLabel"></span><span class="call-short">Call now</span></a>
+      </div>
+    </div>
+    <div class="intro-art reveal">
+      <div class="intro-badge" data-field="about.badge">
+        <span data-content="introBadgeLabel"></span>
+        <b data-content="introBadgeValue"></b>
+      </div>
+      <div class="media main" data-field="about.image" data-img="about.image" data-dims="900 × 1125"></div>
+      <div class="media inset" data-field="about.insetImage" data-img="about.insetImage" data-dims="600 × 600"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ WHY CHOOSE US ═════════════════════════════════════════════════════ -->
+<section class="section" id="why">
+  <div class="container">
+    <div class="section-head sec-center">
+      <div class="seclabel">Why us</div>
+      <h2 data-field="why.heading" data-content="whyHeading"></h2>
+      <p data-field="why.intro" data-content="whyIntro"></p>
+    </div>
+    <div class="grid grid-3" data-content="whyCards" data-field="why.points"></div>
+    <div class="center-cta">
+      <a class="btn btn-primary btn-lg" href="#estimate" data-content="heroCta1"></a>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SERVICES AVAILABLE HERE ═══════════════════════════════════════════ -->
+<section class="section section-tinted" id="services">
+  <div class="container">
+    <div class="section-head sec-center">
+      <div class="seclabel">What we do here</div>
+      <h2 data-content="ldServicesHeading" data-field="location.servicesHeading"></h2>
+      <p data-field="services.intro" data-content="svcIntro2"></p>
+    </div>
+    <div class="grid grid-3" data-content="serviceCards" data-field="services.items"></div>
+    <div class="center-cta">
+      <a class="btn btn-primary btn-lg" href="services.html" data-field="services.viewAllLabel" data-content="svcAll"></a>
+    </div>
+
+    <div class="imagestrip" data-field="gallery.strip">
+      <div class="media" data-field="gallery.image" data-img="gallery.image" data-dims="600 × 800"></div>
+      <div class="media" data-field="gallery.image" data-img="gallery.image" data-dims="600 × 800"></div>
+      <div class="media" data-field="gallery.image" data-img="gallery.image" data-dims="600 × 800"></div>
+      <div class="media" data-field="gallery.image" data-img="gallery.image" data-dims="600 × 800"></div>
+      <div class="media" data-field="gallery.image" data-img="gallery.image" data-dims="600 × 800"></div>
+    </div>
+
+    <div class="accred" data-field="trust.logos">
+      <p class="accred-note" data-field="trust.logosLabel">Accredited and certified</p>
+      <div class="media" data-field="trust.logo" data-img="trust.logo" data-dims="400 × 180"></div>
+      <div class="media" data-field="trust.logo" data-img="trust.logo" data-dims="400 × 180"></div>
+      <div class="media" data-field="trust.logo" data-img="trust.logo" data-dims="400 × 180"></div>
+      <div class="media" data-field="trust.logo" data-img="trust.logo" data-dims="400 × 180"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PROCESS ═══════════════════════════════════════════════════════════ -->
+<section class="section" id="process">
+  <div class="container processgrid">
+    <div class="media process-art reveal" data-field="process.image" data-img="process.image" data-dims="800 × 1067"></div>
+    <div>
+      <div class="seclabel">Our process</div>
+      <h2 data-field="process.heading" data-content="procHeading"></h2>
+      <p class="lede" style="margin-top:.9rem" data-field="process.intro" data-content="procIntro"></p>
+      <ul class="steplist" style="margin-top:1.6rem" data-content="processSteps" data-field="process.steps"></ul>
+      <div style="margin-top:1.8rem">
+        <a class="btn btn-primary btn-lg" href="#estimate" data-content="heroCta1"></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ COVERAGE — the neighbourhoods this location serves ════════════════ -->
+<section class="section section-tinted" id="coverage">
+  <div class="container">
+    <div class="section-head sec-center">
+      <div class="seclabel">Coverage</div>
+      <h2 data-content="ldAreasHeading" data-field="location.areasHeading"></h2>
+      <p data-content="ldAreasIntro" data-field="location.areasIntro"></p>
+    </div>
+    <ul class="chipset" style="justify-content:center" data-content="ldAreas" data-field="location.areas"></ul>
+  </div>
+</section>
+
+<!-- ══ AREA FEATURE BAND ═════════════════════════════════════════════════ -->
+<section class="featureband">
+  <div class="media" data-field="locations.bandImage" data-img="locations.bandImage" data-dims="1920 × 900"></div>
+  <div class="featureband-scrim"></div>
+  <div class="container featureband-inner">
+    <div class="seclabel">Local service</div>
+    <h2 data-content="ldBandHeading" data-field="location.bandHeading"></h2>
+    <p data-field="locations.intro" data-content="locIntro"></p>
+    <a class="btn btn-cream btn-lg" href="#estimate" data-content="heroCta1"></a>
+  </div>
+</section>
+
+<!-- ══ PLANS ═════════════════════════════════════════════════════════════ -->
+<section class="section" id="plans">
+  <div class="container">
+    <div class="section-head sec-center">
+      <div class="seclabel">Where to start</div>
+      <h2 data-field="plans.heading" data-content="bookHeading"></h2>
+      <p data-field="plans.intro" data-content="bookSub"></p>
+    </div>
+    <div class="plans" data-content="planCards" data-field="plans.items"></div>
+    <ul class="assurance" data-content="assurancePoints" data-field="booking.points"></ul>
+  </div>
+</section>
+
+<!-- ══ TESTIMONIALS ══════════════════════════════════════════════════════ -->
 <section class="section section-tinted">
+  <div class="container">
+    <div class="section-head sec-center">
+      <div class="seclabel">Reviews</div>
+      <h2 data-content="ldReviewsHeading" data-field="reviews.heading"></h2>
+      <p class="review-source" data-field="reviews.sourceLabel" data-content="reviewSourceLabel"></p>
+    </div>
+    <div class="slider" data-slider>
+      <div class="slider-track" data-track data-content="reviewCards" data-field="reviews.items"></div>
+      <div class="slider-foot">
+        <div class="slider-dots" data-dots></div>
+        <div class="slider-arrows">
+          <button class="sarrow" data-prev aria-label="Previous review"><svg viewBox="0 0 16 16"><path d="M10 2L4 8l6 6"/></svg></button>
+          <button class="sarrow" data-next aria-label="Next review"><svg viewBox="0 0 16 16"><path d="M6 2l6 6-6 6"/></svg></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ AT THIS LOCATION — facilities and opening hours ═══════════════════ -->
+<section class="section" id="visit">
   <div class="container grid grid-2">
     <div>
-      <div class="seclabel">At this office</div>
+      <div class="seclabel">At this location</div>
       <h2 style="font-size:var(--step-2)">What you will find here</h2>
       <ul class="ticklist" data-content="ldFacilities" data-field="location.facilities"></ul>
     </div>
@@ -1256,49 +1418,93 @@ body.annotate [data-field]:hover{position:relative}
   </div>
 </section>
 
-<section class="section">
-  <div class="container">
-    <div class="section-head sec-center">
-      <div class="seclabel">Coverage</div>
-      <h2 data-content="ldAreasHeading" data-field="location.areasHeading"></h2>
-      <p>Outside these areas another office may be closer. Call and we will route you.</p>
-    </div>
-    <ul class="chipset" style="justify-content:center" data-content="ldAreas" data-field="location.areas"></ul>
-  </div>
-</section>
-
-<section class="section section-tinted">
+<!-- ══ NEARBY LOCATIONS ══════════════════════════════════════════════════ -->
+<section class="section section-tinted" id="nearby">
   <div class="container">
     <div class="section-head head-row">
-      <div><div class="seclabel">Available here</div><h2 data-content="svcHeading" data-field="services.heading"></h2></div>
-      <a class="linkarrow" href="services.html" data-content="svcAll"></a>
+      <div>
+        <div class="seclabel">Nearby</div>
+        <h2 data-content="ldNearbyHeading" data-field="locations.nearbyHeading"></h2>
+        <p data-content="ldNearbyIntro" data-field="locations.nearbyIntro"></p>
+      </div>
+      <a class="linkarrow" href="locations.html">All service areas</a>
     </div>
+    <div class="grid grid-2" data-content="ldNearby" data-field="locations.items"></div>
+  </div>
+</section>
 
-    <div class="slider" data-slider>
-      <div class="slider-track" data-track data-content="serviceCards" data-field="services.items"></div>
-      <div class="slider-foot">
-        <div class="slider-dots" data-dots></div>
-        <div class="slider-arrows">
-          <button class="sarrow" data-prev aria-label="Previous"><svg viewBox="0 0 16 16"><path d="M10 2L4 8l6 6"/></svg></button>
-          <button class="sarrow" data-next aria-label="Next"><svg viewBox="0 0 16 16"><path d="M6 2l6 6-6 6"/></svg></button>
+<!-- ══ FAQ ═══════════════════════════════════════════════════════════════ -->
+<section class="section">
+  <div class="container">
+    <div class="faq-layout">
+      <div>
+        <div class="section-head">
+          <div class="seclabel">Questions</div>
+          <h2 data-content="ldFaqHeading" data-field="faq.heading"></h2>
+          <p data-field="faq.intro" data-content="faqIntro"></p>
         </div>
+        <div class="faq" data-content="faqItems" data-field="faq.items"></div>
+      </div>
+      <aside class="askcard" data-field="faq.ctaCard">
+        <h3 data-field="faq.ctaHeading" data-content="faqCtaHeading"></h3>
+        <p data-field="faq.ctaBody" data-content="faqCtaBody"></p>
+        <div class="askcard-actions">
+          <a class="btn btn-accent btn-block" href="#estimate" data-content="heroCta1"></a>
+          <a class="btn btn-light btn-block btn-call" href="tel:+910000000000"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3.1 19.5 19.5 0 01-6-6A19.8 19.8 0 012.1 4.2 2 2 0 014.1 2h3a2 2 0 012 1.7c.1 1 .3 1.9.6 2.8a2 2 0 01-.5 2.1L8.1 9.8a16 16 0 006 6l1.2-1.1a2 2 0 012.1-.5c.9.3 1.8.5 2.8.6a2 2 0 011.8 2.1z"/></svg><span class="call-full" data-content="callLabel"></span><span class="call-short">Call now</span></a>
+        </div>
+        <div class="askcard-foot" data-field="faq.ctaFootnote">
+          Prefer to write? <a href="#estimate" data-content="faqCtaLink"></a>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ══ ESTIMATE FORM ═════════════════════════════════════════════════════ -->
+<section class="section section-tinted" id="estimate">
+  <div class="container estimate">
+    <div class="estimate-side">
+      <div class="seclabel">Get in touch</div>
+      <h2 data-content="ldFormHeading" data-field="booking.heading"></h2>
+      <p class="lede" data-field="booking.subtext" data-content="bookSub2"></p>
+      <ul class="estimate-rows" data-content="estimateRows" data-field="contact.details"></ul>
+      <div class="intro-actions">
+        <a class="btn btn-outline btn-lg btn-call" href="tel:+910000000000"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3.1 19.5 19.5 0 01-6-6A19.8 19.8 0 012.1 4.2 2 2 0 014.1 2h3a2 2 0 012 1.7c.1 1 .3 1.9.6 2.8a2 2 0 01-.5 2.1L8.1 9.8a16 16 0 006 6l1.2-1.1a2 2 0 012.1-.5c.9.3 1.8.5 2.8.6a2 2 0 011.8 2.1z"/></svg><span class="call-full" data-content="callLabel"></span><span class="call-short">Call now</span></a>
       </div>
     </div>
+
+    <form class="bookform" id="bookform" data-field="booking.form"
+          onsubmit="event.preventDefault();alert('Demo only — posts to /api/book in production.')">
+      <h3 data-field="booking.formHeading" data-content="formHeading"></h3>
+      <p data-field="booking.formSubtext" data-content="formSub"></p>
+      <div class="formgrid">
+        <div class="formgrid-2">
+          <div class="field"><label for="b-name">Full name</label><input id="b-name" required placeholder="Your name"></div>
+          <div class="field"><label for="b-phone">Phone number</label><input id="b-phone" type="tel" required placeholder="Mobile number"></div>
+        </div>
+        <div class="field"><label for="b-email">Email address</label><input id="b-email" type="email" placeholder="you@example.com"></div>
+        <div class="formgrid-2">
+          <div class="field"><label for="b-svc" data-content="bookFieldService"></label><select id="b-svc" data-content="serviceOptions"></select></div>
+          <div class="field"><label for="b-loc">Location</label><select id="b-loc" data-content="locationOptions"></select></div>
+        </div>
+        <div class="formgrid-2">
+          <div class="field"><label for="b-date">Preferred date</label><input id="b-date" type="date"></div>
+          <div class="field"><label for="b-time">Preferred time</label>
+            <select id="b-time"><option>Morning (9am–12pm)</option><option>Afternoon (12pm–4pm)</option><option>Evening (4pm–7pm)</option></select>
+          </div>
+        </div>
+        <div class="field"><label for="b-msg" data-content="messageLabel"></label><textarea id="b-msg" rows="4"></textarea></div>
+        <label class="consent" data-field="booking.consentText">
+          <input type="checkbox" required>
+          <span data-content="consentText"></span>
+        </label>
+        <button class="btn btn-accent btn-block btn-lg" type="submit" data-field="booking.submitLabel" data-content="submitLabel"></button>
+        <p class="form-note" data-field="booking.reassurance" data-content="formNote"></p>
+      </div>
+    </form>
   </div>
 </section>
 
-<section class="featureband">
-  <div class="media" data-field="cta.backgroundImage" data-img="cta.backgroundImage" data-dims="1600 × 700"></div>
-  <div class="featureband-scrim"></div>
-  <div class="container ctaband-inner">
-    <h2 data-field="cta.heading" data-content="ctaHeading"></h2>
-    <p data-field="cta.body" data-content="ctaBody"></p>
-    <div class="ctaband-actions">
-      <a class="btn btn-accent btn-lg" href="contact.html#bookform" data-field="cta.primaryLabel" data-content="heroCta1"></a>
-      <a class="btn btn-light btn-lg btn-call" href="tel:+910000000000" data-field="cta.phoneLabel"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3.1 19.5 19.5 0 01-6-6A19.8 19.8 0 012.1 4.2 2 2 0 014.1 2h3a2 2 0 012 1.7c.1 1 .3 1.9.6 2.8a2 2 0 01-.5 2.1L8.1 9.8a16 16 0 006 6l1.2-1.1a2 2 0 012.1-.5c.9.3 1.8.5 2.8.6a2 2 0 011.8 2.1z"/></svg><span class="call-full" data-content="callLabel"></span><span class="call-short">Call now</span></a>
-    </div>
-  </div>
-</section>
 </main>
 
 
@@ -2765,19 +2971,35 @@ function teamGrid(c){
 
 function renderPage(v, c){
   var p = P[v].location, l = c.locations[0];
+  var name = l[0], area = l[1], addr = l[2], hours = l[3], phone = l[4], open = l[5];
   setPageHero(c);
-  set("ldCrumb", l[0]); set("ldName", l[0]); set("ldName2", l[0]);
-  set("ldIntro", p.intro); set("ldAddress", l[2]);
+
+  /* headings localised to this location */
+  set("ldCrumb", name);
+  set("ldName2", name);
+  set("ldH1", c.brandTag + " in " + name);
+  set("ldIntro", p.intro);
+  set("ldAddress", addr);
+  set("ldAboutHeading", "Your " + name + " team");
+  set("ldServicesHeading", stripTags(c.svcHeading) + " in " + name);
   set("ldAreasHeading", p.areasHeading);
+  set("ldAreasIntro", "Outside these areas another location may be closer. Call and we will point you to the right team.");
+  set("ldBandHeading", "Serving " + area);
+  set("ldReviewsHeading", stripTags(c.revHeading) + " in " + name);
+  set("ldFaqHeading", stripTags(c.faqHeading));
+  set("ldFormHeading", "Get a free quote in " + name);
+  set("ldNearbyHeading", "Other locations");
+  set("ldNearbyIntro", "If " + name + " is not your closest, one of these will be.");
+
   set("ldChips",
-    '<span data-field="location.area">' + l[1] + '</span>'+
-    '<span data-field="location.openStatus"><b>' + l[5] + '</b></span>'+
-    '<span data-field="location.phone">' + l[4] + '</span>');
+    '<span data-field="location.area">' + area + '</span>'+
+    '<span data-field="location.openStatus"><b>' + open + '</b></span>'+
+    '<span data-field="location.phone">' + phone + '</span>');
 
   var rows = [
-    [ICONS.clock, "Hours", l[3]],
-    [ICONS.phone, "Phone", '<a href="tel:' + l[4].replace(/\s/g,"") + '" style="color:inherit">' + l[4] + '</a>'],
-    [ICONS.pin, "Area", l[1]]
+    [ICONS.clock, "Hours", hours],
+    [ICONS.phone, "Phone", '<a href="tel:' + phone.replace(/\s/g,"") + '" style="color:inherit">' + phone + '</a>'],
+    [ICONS.pin, "Area", area]
   ].concat(p.transport.map(function(t){ return [ICONS.route, t[0], t[1]]; }));
   set("ldRows", rows.map(function(r){
     return '<li data-field="location.detail"><svg viewBox="0 0 24 24">' + r[0] + '</svg>' + r[1] + '<b>' + r[2] + '</b></li>'; }).join(""));
@@ -2788,24 +3010,67 @@ function renderPage(v, c){
     return '<tr data-field="location.hoursRow"><th scope="row">' + x[0] + '</th><td>' + x[1] + '</td></tr>'; }).join(""));
   set("ldAreas", p.areas.map(function(t){
     return '<li data-field="location.areaServed">' + t + '</li>'; }).join(""));
+
+  /* nearby locations: every location except the one this page is about */
+  set("ldNearby", c.locations.slice(1).map(function(o){
+    return '<article class="areacard" data-field="location.card">'+
+      '<div class="areacard-top"><div>'+
+        '<h3 data-field="location.name"><a href="location-detail.html" style="text-decoration:none">' + o[0] + '</a></h3>'+
+        '<span class="sub" data-field="location.area">' + o[1] + '</span></div>'+
+        '<span class="openpill" data-field="location.openStatus">' + o[5] + '</span></div>'+
+      '<ul class="arearows">'+
+        '<li><svg viewBox="0 0 24 24">' + ICONS.pin + '</svg><span data-field="location.address">' + o[2] + '</span></li>'+
+        '<li><svg viewBox="0 0 24 24">' + ICONS.clock + '</svg><span data-field="location.hours">' + o[3] + '</span></li>'+
+        '<li><svg viewBox="0 0 24 24">' + ICONS.phone + '</svg><a href="tel:' + o[4].replace(/\s/g,"") + '" data-field="location.phone">' + o[4] + '</a></li>'+
+      '</ul>'+
+      '<div class="areacard-actions">'+
+        '<a class="btn btn-primary btn-sm" href="location-detail.html" data-field="location.pageCta">View this location</a>'+
+        '<a class="btn btn-outline btn-sm" href="#" data-field="location.directionsUrl">Directions</a>'+
+      '</div></article>'; }).join(""));
+
+  /* the enquiry form should already be set to the location being viewed */
+  var sel = document.getElementById("b-loc");
+  if (sel) sel.value = name;
+
+  /* and the contact rows should show THIS location, not the head office */
+  set("estimateRows", [
+    [ICONS.pin, "Address", addr],
+    [ICONS.clock, "Hours", hours],
+    [ICONS.phone, "Phone", '<a href="tel:' + phone.replace(/\s/g,"") + '" style="color:inherit">' + phone + '</a>']
+  ].map(function(r){
+    return '<li data-field="contact.detail"><svg viewBox="0 0 24 24">' + r[0] + '</svg>' + r[1] + '<b>' + r[2] + '</b></li>'; }).join(""));
 }
 
 function pageMeta(c, v){
   var p = P[v].location, l = c.locations[0];
-  var t = l[0] + " — " + c.brandName + " | " + c.brandTag;
-  document.title = t; setMeta("description", stripTags(p.intro));
-  setMeta("og:title", t, "property"); setMeta("og:description", stripTags(p.intro), "property");
-  setMeta("twitter:title", t); setMeta("twitter:description", stripTags(p.intro));
+  var t = c.brandTag + " in " + l[0] + " | " + c.brandName;
+  var d = stripTags(p.intro);
+  document.title = t;
+  setMeta("description", d);
+  setMeta("og:title", t, "property"); setMeta("og:description", d, "property");
+  setMeta("twitter:title", t); setMeta("twitter:description", d);
 }
 
 function pageSchema(c, graph, v){
   var p = P[v].location, l = c.locations[0];
   graph.push({"@type":SCHEMA_ORG_TYPE[v] || "LocalBusiness",
-    name: c.brandName + " — " + l[0], description: stripTags(p.intro), telephone: l[4],
+    "@id": location.href.split("?")[0] + "#location",
+    name: c.brandName + " — " + l[0],
+    description: stripTags(p.intro),
+    telephone: l[4],
+    image: (c.heroSlides && c.heroSlides[0]) ? c.heroSlides[0][0] : undefined,
     address:{"@type":"PostalAddress", streetAddress:l[2], addressLocality:l[1], addressCountry:"IN"},
     openingHours: l[3],
     areaServed: p.areas.map(function(a){ return {"@type":"Place", name:a}; }),
+    makesOffer: c.services.map(function(s){
+      return {"@type":"Offer", itemOffered:{"@type":"Service", name:stripTags(s[0]), description:stripTags(s[1])}}; }),
     parentOrganization:{"@type":"Organization", name:c.brandName}});
+  /* the shared graph already carries a FAQPage from the homepage build;
+     replace it rather than emitting two on one page */
+  graph = graph.filter(function(n){ return n["@type"] !== "FAQPage"; });
+  graph.push({"@type":"FAQPage", mainEntity:c.faq.map(function(x){
+    return {"@type":"Question", name:stripTags(x[0]),
+      acceptedAnswer:{"@type":"Answer", text:stripTags(x[1])}}; })});
   graph.push({"@type":"BreadcrumbList", itemListElement:[
     {"@type":"ListItem", position:1, name:"Home", item: location.origin + "/"},
     {"@type":"ListItem", position:2, name:"Service areas", item: location.origin + "/locations"},
