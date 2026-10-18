@@ -1946,6 +1946,9 @@ const $$=(s,r=document)=>[...r.querySelectorAll(s)];
 const set=(k,html)=>$$(`[data-content="${k}"]`).forEach(el=>el.innerHTML=html);
 
 /* Every image slot renders either the uploaded image or a themed fallback */
+/* one page serves every area — the name travels in the query string */
+function locHref(n){ return "location-detail.html?loc=" + encodeURIComponent(n); }
+
 function paintMedia(){
   $$("[data-img]").forEach(el=>{
     const src=el.getAttribute("data-src");
@@ -2138,9 +2141,9 @@ function render(v){
       '</div>'+
     '</article>').join(""));
   set("menuLocations", c.locations.map(([n,area,,hours])=>
-    '<a class="menu-item" href="locations.html" data-field="nav.locationItem"><strong>'+n+'</strong><span>'+area+' · '+hours+'</span></a>').join(""));
-  set("drawerLocations", c.locations.map(([n])=>'<a href="locations.html">'+n+'</a>').join(""));
-  set("footerLocations", c.locations.map(([n])=>'<li><a href="locations.html">'+n+'</a></li>').join(""));
+    '<a class="menu-item" href="'+locHref(n)+'" data-field="nav.locationItem"><strong>'+n+'</strong><span>'+area+' · '+hours+'</span></a>').join(""));
+  set("drawerLocations", c.locations.map(([n])=>'<a href="'+locHref(n)+'">'+n+'</a>').join(""));
+  set("footerLocations", c.locations.map(([n])=>'<li><a href="'+locHref(n)+'">'+n+'</a></li>').join(""));
   set("locationOptions", c.locations.map(([n])=>'<option>'+n+'</option>').join(""));
   set("footerNap", c.locations[0][2]+'<br><a href="tel:'+c.mainPhone.replace(/\s/g,"")+'">'+c.mainPhone+'</a>');
 
@@ -2509,7 +2512,7 @@ function renderPage(v, c){
   set("locationGrid", c.locations.map(function(l){
     return '<article class="areacard" data-field="location.card">'+
       '<div class="areacard-top"><div>'+
-        '<h3 data-field="location.name"><a href="location-detail.html" style="text-decoration:none">' + l[0] + '</a></h3>'+
+        '<h3 data-field="location.name"><a href="' + locHref(l[0]) + '" style="text-decoration:none">' + l[0] + '</a></h3>'+
         '<span class="sub" data-field="location.area">' + l[1] + '</span></div>'+
         '<span class="openpill" data-field="location.openStatus">' + l[5] + '</span></div>'+
       '<ul class="arearows">'+
@@ -2518,7 +2521,7 @@ function renderPage(v, c){
         '<li><svg viewBox="0 0 24 24">' + ICONS.phone + '</svg><a href="tel:' + l[4].replace(/\s/g,"") + '" data-field="location.phone">' + l[4] + '</a></li>'+
       '</ul>'+
       '<div class="areacard-actions">'+
-        '<a class="btn btn-primary btn-sm" href="location-detail.html" data-field="location.pageCta">View this office</a>'+
+        '<a class="btn btn-primary btn-sm" href="' + locHref(l[0]) + '" data-field="location.pageCta">View this office</a>'+
         '<a class="btn btn-outline btn-sm" href="#" data-field="location.directionsUrl">Directions</a>'+
       '</div></article>'; }).join(""));
 }

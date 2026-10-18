@@ -2222,6 +2222,9 @@ const $$=(s,r=document)=>[...r.querySelectorAll(s)];
 const set=(k,html)=>$$(`[data-content="${k}"]`).forEach(el=>el.innerHTML=html);
 
 /* Every image slot renders either the uploaded image or a themed fallback */
+/* one page serves every area — the name travels in the query string */
+function locHref(n){ return "location-detail.html?loc=" + encodeURIComponent(n); }
+
 function paintMedia(){
   $$("[data-img]").forEach(el=>{
     const src=el.getAttribute("data-src");
@@ -2439,9 +2442,9 @@ function render(v){
       '</div>'+
     '</article>').join(""));
   set("menuLocations", c.locations.map(([n,area,,hours])=>
-    '<a class="menu-item" href="locations.html" data-field="nav.locationItem"><strong>'+n+'</strong><span>'+area+' · '+hours+'</span></a>').join(""));
-  set("drawerLocations", c.locations.map(([n])=>'<a href="locations.html">'+n+'</a>').join(""));
-  set("footerLocations", c.locations.map(([n])=>'<li><a href="locations.html">'+n+'</a></li>').join(""));
+    '<a class="menu-item" href="'+locHref(n)+'" data-field="nav.locationItem"><strong>'+n+'</strong><span>'+area+' · '+hours+'</span></a>').join(""));
+  set("drawerLocations", c.locations.map(([n])=>'<a href="'+locHref(n)+'">'+n+'</a>').join(""));
+  set("footerLocations", c.locations.map(([n])=>'<li><a href="'+locHref(n)+'">'+n+'</a></li>').join(""));
   set("locationOptions", c.locations.map(([n])=>'<option>'+n+'</option>').join(""));
   set("footerNap", c.locations[0][2]+'<br><a href="tel:'+c.mainPhone.replace(/\s/g,"")+'">'+c.mainPhone+'</a>');
 
@@ -3008,7 +3011,11 @@ function teamGrid(c){
 
 
 function renderPage(v, c){
-  var p = P[v].location, l = c.locations[0];
+  var p = P[v].location;
+  /* which area this page is showing — ?loc=Burnaby, else the first */
+  var want = new URLSearchParams(window.location.search).get("loc");
+  var l = (want && c.locations.filter(function(o){
+        return o[0].toLowerCase() === want.toLowerCase(); })[0]) || c.locations[0];
   var name = l[0], area = l[1], addr = l[2], hours = l[3], phone = l[4], open = l[5];
   setPageHero(c);
 
@@ -3050,10 +3057,12 @@ function renderPage(v, c){
     return '<li data-field="location.areaServed">' + t + '</li>'; }).join(""));
 
   /* nearby locations: every location except the one this page is about */
-  set("ldNearby", c.locations.slice(1).map(function(o){
+  /* every area except the one being viewed — not a blind slice(1), which
+     left the current area in the list whenever it wasn't the first */
+  set("ldNearby", c.locations.filter(function(o){ return o[0] !== name; }).map(function(o){
     return '<article class="areacard" data-field="location.card">'+
       '<div class="areacard-top"><div>'+
-        '<h3 data-field="location.name"><a href="location-detail.html" style="text-decoration:none">' + o[0] + '</a></h3>'+
+        '<h3 data-field="location.name"><a href="' + locHref(o[0]) + '" style="text-decoration:none">' + o[0] + '</a></h3>'+
         '<span class="sub" data-field="location.area">' + o[1] + '</span></div>'+
         '<span class="openpill" data-field="location.openStatus">' + o[5] + '</span></div>'+
       '<ul class="arearows">'+
@@ -3080,7 +3089,11 @@ function renderPage(v, c){
 }
 
 function pageMeta(c, v){
-  var p = P[v].location, l = c.locations[0];
+  var p = P[v].location;
+  /* which area this page is showing — ?loc=Burnaby, else the first */
+  var want = new URLSearchParams(window.location.search).get("loc");
+  var l = (want && c.locations.filter(function(o){
+        return o[0].toLowerCase() === want.toLowerCase(); })[0]) || c.locations[0];
   var t = c.brandTag + " in " + l[0] + " | " + c.brandName;
   var d = stripTags(p.intro);
   document.title = t;
@@ -3090,7 +3103,11 @@ function pageMeta(c, v){
 }
 
 function pageSchema(c, graph, v){
-  var p = P[v].location, l = c.locations[0];
+  var p = P[v].location;
+  /* which area this page is showing — ?loc=Burnaby, else the first */
+  var want = new URLSearchParams(window.location.search).get("loc");
+  var l = (want && c.locations.filter(function(o){
+        return o[0].toLowerCase() === want.toLowerCase(); })[0]) || c.locations[0];
   graph.push({"@type":SCHEMA_ORG_TYPE[v] || "LocalBusiness",
     "@id": location.href.split("?")[0] + "#location",
     name: c.brandName + " — " + l[0],
