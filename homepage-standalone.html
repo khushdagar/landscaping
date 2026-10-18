@@ -402,17 +402,33 @@ table{border-collapse:collapse}
 .svccard-foot{margin-top:auto; padding-top:1rem}
 
 .imagestrip{display:grid; gap:.9rem; grid-template-columns:repeat(2,1fr); margin-top:2.6rem}
-@media (min-width:760px){ .imagestrip{grid-template-columns:repeat(5,1fr)} }
+@media (min-width:760px){ .imagestrip{grid-template-columns:repeat(var(--strip-cols,5),1fr)} }
 .imagestrip .media{aspect-ratio:3/4; border-radius:var(--radius-sm)}
-@media (max-width:759px){ .imagestrip .media:nth-child(5){grid-column:span 2; aspect-ratio:16/9} }
+.imagestrip > [hidden]{display:none}
+/* an odd last tile would sit half-width on its own row — let it span instead */
+@media (max-width:759px){
+  .imagestrip[data-count="3"] .media:nth-child(3),
+  .imagestrip[data-count="5"] .media:nth-child(5){grid-column:span 2; aspect-ratio:16/9}
+}
 
 .accred{
   display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:1.4rem 2.6rem;
   margin-top:2.6rem; padding-top:2.2rem; border-top:1px solid var(--line);
 }
 .accred-note{width:100%; text-align:center; font-size:.76rem; font-weight:600; letter-spacing:var(--track-label); text-transform:uppercase; color:var(--ink-faint); margin-bottom:.4rem}
-.accred .media{width:132px; aspect-ratio:3/1.4; border-radius:var(--radius-sm); background:var(--surface-alt); filter:saturate(.25) opacity(.85); transition:filter .2s ease}
-.accred .media:hover{filter:none}
+.trustrow{display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:.7rem; width:100%}
+.trustbadge{
+  display:inline-flex; align-items:center; gap:.6rem;
+  padding:.72rem 1.15rem; border-radius:var(--radius-pill);
+  background:var(--surface); border:1px solid var(--line);
+  font-size:.92rem; font-weight:600; color:var(--ink);
+}
+.trustbadge svg{width:18px; height:18px; flex:0 0 auto; fill:none; stroke:var(--brand); stroke-width:1.9; stroke-linecap:round; stroke-linejoin:round}
+.trustbadge .stars{flex:0 0 auto}
+.trustbadge .stars svg{width:14px; height:14px; fill:var(--gold); stroke:none}
+.trustlogo{display:inline-flex; align-items:center}
+.trustlogo img{width:132px; height:auto; filter:saturate(.25) opacity(.85); transition:filter .2s ease}
+.trustlogo img:hover{filter:none}
 
 /* ============================================================================
    STATS — cream band, serif numerals
@@ -998,12 +1014,9 @@ body.annotate [data-field]:hover{position:relative}
       <div class="media" data-field="gallery.image" data-img="gallery.image" data-dims="600 × 800"></div>
     </div>
 
-    <div class="accred" data-field="trust.logos">
-      <p class="accred-note" data-field="trust.logosLabel">Accredited and certified</p>
-      <div class="media" data-field="trust.logo" data-img="trust.logo" data-dims="400 × 180"></div>
-      <div class="media" data-field="trust.logo" data-img="trust.logo" data-dims="400 × 180"></div>
-      <div class="media" data-field="trust.logo" data-img="trust.logo" data-dims="400 × 180"></div>
-      <div class="media" data-field="trust.logo" data-img="trust.logo" data-dims="400 × 180"></div>
+    <div class="accred" data-field="trust.badges">
+      <p class="accred-note" data-field="trust.badgesLabel">Accredited and certified</p>
+      <ul class="trustrow" data-content="trustBadges" data-field="trust.items"></ul>
     </div>
   </div>
 </section>
@@ -1922,11 +1935,36 @@ function render(v){
     heroSlot.setAttribute("data-alt", c.heroSlides[0][1]);
   }
   /* the remaining slides fill the gallery strip and the feature band */
-  const strip = document.querySelectorAll('.imagestrip .media');
-  strip.forEach((el,i)=>{
-    const s = c.heroSlides[(i+1) % c.heroSlides.length];
-    if (s){ el.setAttribute("data-src", s[0]); el.setAttribute("data-alt", s[1]); }
-  });
+  /* one slot per DISTINCT photograph — repeating the same image across five
+     slots read as a mistake. The grid narrows to however many we have. */
+  const stripWrap = document.querySelector('.imagestrip');
+  if (stripWrap){
+    const photos = [...new Map(c.heroSlides.map(s => [s[0], s])).values()].slice(0, 5);
+    [...stripWrap.children].forEach((el, i) => {
+      const p = photos[i];
+      if (p){
+        el.hidden = false;
+        el.setAttribute("data-src", p[0]);
+        el.setAttribute("data-alt", p[1]);
+      } else {
+        el.hidden = true;
+        el.removeAttribute("data-src");
+        el.removeAttribute("data-alt");
+      }
+    });
+    stripWrap.style.setProperty("--strip-cols", photos.length);
+    stripWrap.dataset.count = photos.length;
+  }
+
+  /* Trust row: real logos if the client has uploaded any, otherwise the
+     credentials stated in words. Never an empty placeholder box. */
+  const logos = Array.isArray(c.trustLogos) ? c.trustLogos : [];
+  set("trustBadges", logos.length
+    ? logos.map(([src, alt]) =>
+        '<li class="trustlogo" data-field="trust.logo"><img src="' + src + '" alt="' + alt + '" loading="lazy" decoding="async"></li>').join("")
+    : c.heroChips.map(([ic, t]) =>
+        '<li class="trustbadge" data-field="trust.item"><svg viewBox="0 0 24 24">' + (ICONS[ic] || ICONS.shield) + '</svg><span>' + t + '</span></li>').join("")
+      + '<li class="trustbadge" data-field="trust.rating"><span class="stars">' + STARSVG.repeat(5) + '</span><span>' + c.heroRating + '</span></li>');
   const band = document.querySelector('.featureband > .media');
   if (band && c.heroSlides[2]){ band.setAttribute("data-src", c.heroSlides[2][0]); band.setAttribute("data-alt", c.heroSlides[2][1]); }
   const art = document.querySelector('.process-art');
@@ -2242,7 +2280,7 @@ const RV = [
   [".takeaways", "up"], [".authorbox", "up"], [".sidebox", "up"],
   [".bookform", "rise"], [".estimate-side > *", "up"],
   [".profile-media", "mask"], [".quoteblock", "up"],
-  [".imagestrip .media", "zoom"], [".accred .media", "up"],
+  [".imagestrip .media", "zoom"], [".trustrow li", "up"],
   [".findus-card", "rise"], [".mapslot", "mask"],
   [".ctaband-inner > *", "up"], [".featureband-inner > *", "up"]
 ];
